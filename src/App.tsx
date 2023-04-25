@@ -11,6 +11,7 @@ import Login from 'pages/account/Login';
 import Signup from 'pages/account/Signup';
 import Project from 'pages/project/Project';
 import Task from 'pages/project/Task';
+import AppRoute from 'HOC/AppRoute';
 
 
 
@@ -20,12 +21,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index path='' element={<Login/>} />
+        <Route index path='' element={    <Login/>    } />
+        
         <Route  path='/signup' element={<Signup/>}/>
         <Route path='*' element={<Navigate to={'/signin'}/>}></Route>
 
-        <Route path='project' element={<MainTemplate/>}>
-          <Route index path='' element={<Project/>}></Route>
+        <Route path='project' element={<AppRoute Component={<MainTemplate/>} isAuth />}>
+          <Route index path='detail' element={<AppRoute Component={<Project/>} isAuth  isAdmin  />}></Route>
           <Route path='task' element={<Task/> }></Route>
         </Route>
       </Routes>

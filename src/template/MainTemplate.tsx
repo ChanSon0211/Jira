@@ -1,13 +1,26 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import { Outlet } from 'react-router';
+import { useAppDispatch } from 'app/hooks';
+import { fetchAllProjectList } from 'reducers/projectSlice';
 
 
 const { Header, Footer, Sider } = Layout;
 type Props = {}
 
 const MainTemplate = (props: Props) => {
+
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+  
+    dispatch(fetchAllProjectList(''))
+    
+  }, [])
+  
+
+
     const {
         token: { colorBgContainer },
       } = theme.useToken();

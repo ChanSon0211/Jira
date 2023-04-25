@@ -2,10 +2,11 @@
 import { useAppDispatch } from 'app/hooks'
 import { useFormik } from 'formik'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { userLogin } from 'reducers/userSlice'
+import Swal from 'sweetalert2'
 import { LoginType } from 'type/userType'
-
+import * as Yup from 'yup';
 
 
 
@@ -14,18 +15,27 @@ import { LoginType } from 'type/userType'
 type Props = {}
 
 export const Login = (props: Props) => {
- 
 
-    const dispatch = useAppDispatch()
+
+    const dispatch = useAppDispatch();
+
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
             email: '',
             passWord: '',
-        }, 
-        onSubmit(values:LoginType ) {
-            console.log(values)
-          dispatch(userLogin(values))
+        },
+        validationSchema : Yup.object({
+            email: Yup.string().required('* Vui lòng nhập tài khoản!'),
+            passWord: Yup.string().required('*Vui lòng nhập mật khẩu!'),
+        }),
+        async onSubmit(values: LoginType) {
+            const data = await dispatch(userLogin(values));
+
+            if( data.payload) {
+                navigate('/project')
+            }
         }
     });
 
@@ -33,8 +43,21 @@ export const Login = (props: Props) => {
 
 
 
+    interface data {
+
+        cb: (values: number) => void
+    }
+
+
+
+
+
+
+
+
+
     return (
-    
+
         <div className='flex items-center justify-center h-[100vh] bg-slate-700'>
             <div className='w-[30%]'>
                 <div className='flex items-center border border-solid rounded-2xl '>
@@ -43,21 +66,31 @@ export const Login = (props: Props) => {
                 </div>
 
                 <form
-                onSubmit={formik.handleSubmit}
-                className=' p-10 border border-solid border-gray-800 rounded-md mt-10 bg-[#808080c7]'>
+                    onSubmit={formik.handleSubmit}
+                    className=' p-10 border border-solid border-gray-800 rounded-md mt-10 bg-[#808080c7]'>
                     <h2 className='text-xl font-semibold'>Sign in to Your Account</h2>
                     <h3>Your Email</h3>
-                    <input 
-                    onChange={formik.handleChange}
-                    name='email'
-                    className='w-full border border-solid border-orange-500 rounded-md text-lg py-1 px-2 outline-none focus:border-green-700 focus:border-2' type="email" />
+                    <input
+                        onChange={formik.handleChange}
+                        name='email'
+                        className='w-full border border-solid border-orange-500 rounded-md text-lg py-1 px-2 outline-none focus:border-green-700 focus:border-2' type="email" />
+                    
+                    {formik.errors.email && formik.touched.email && (<p className='text-red-700 my-5'>*Vui lòng nhập tai khoan!</p>)}
+                    
+                    
+                    
+                    
                     <h3>Pass Word</h3>
                     <input
-                    onChange={formik.handleChange}
-                    name='passWord'
-                    className='w-full border border-solid border-orange-500 rounded-md text-lg py-1 px-2 outline-none focus:border-green-700 focus:border-2' type="password" />
+                        onChange={formik.handleChange}
+                        name='passWord'
+                        className='w-full border border-solid border-orange-500 rounded-md text-lg py-1 px-2 outline-none focus:border-green-700 focus:border-2' type="password" />
+                    
+                    {formik.errors.passWord && formik.touched.passWord && (<p className='text-red-700 mb-5'>*Vui lòng nhập mật khẩu!</p>)}
+                    
+                    
                     <div className='flex items-center justify-between'>
-                        <div  className='flex items-center justify-start gap-3 py-4'>
+                        <div className='flex items-center justify-start gap-3 py-4'>
                             <input type="checkbox" name="" id="" />
                             <p>Remember Me</p>
                         </div>
