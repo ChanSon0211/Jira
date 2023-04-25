@@ -1,45 +1,34 @@
-import { userPath } from 'api/ApiPath'
-import requester from 'api/requester'
+
+import { useAppDispatch } from 'app/hooks'
 import { useFormik } from 'formik'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Logintype } from 'types/loginType'
+import { userLogin } from 'reducers/userSlice'
+import { LoginType } from 'type/userType'
+
+
 
 
 
 
 type Props = {}
 
-const Login = (props: Props) => {
+export const Login = (props: Props) => {
+ 
 
+    const dispatch = useAppDispatch()
 
     const formik = useFormik({
         initialValues: {
             email: '',
             passWord: '',
         }, 
-        onSubmit(values:Logintype ) {
+        onSubmit(values:LoginType ) {
             console.log(values)
-            handleLogin(values)
+          dispatch(userLogin(values))
         }
     });
 
-
-    const handleLogin = async (formData: Logintype) => {
-        try {
-
-            const data = await requester({
-                url: userPath.LOGIN,
-                method: 'POST',
-                data: formData
-            })
-
-            console.log(data)
-
-        } catch (err) {
-            console.log(err)
-        }
-    }
 
 
 
@@ -49,7 +38,7 @@ const Login = (props: Props) => {
         <div className='flex items-center justify-center h-[100vh] bg-slate-700'>
             <div className='w-[30%]'>
                 <div className='flex items-center border border-solid rounded-2xl '>
-                    <img className='w-[100px]' src={require('../assets/Jira-Emblem-removebg-preview.png')} alt="logo" />
+                    <img className='w-[100px]' src={require('../../assets/Jira-Emblem-removebg-preview.png')} alt="logo" />
                     <h2 className='text-2xl font-semibold'>Jira-SS</h2>
                 </div>
 

@@ -1,27 +1,30 @@
 import { userPath } from 'api/ApiPath'
 import requester from 'api/requester'
+import { useAppDispatch } from 'app/hooks'
 import { useFormik } from 'formik'
 import React from 'react'
-import { SignupType } from 'types/signUpType'
+import { userSignup } from 'reducers/userSlice'
+import { SignupType } from 'type/userType'
+
 
 
 
 type Props = {}
 
 
-const Signup = (props: Props) => {
-
+ const Signup = (props: Props) => {
+const dispatch = useAppDispatch()
 
     const formik = useFormik({
         initialValues: {
             email: "",
             name: "",
-            lastName: "",
+            phoneNumber: "",
             passWord: "",
         },
         onSubmit(values: SignupType) {
             console.log(values);
-            handleSignup(values)
+         dispatch(userSignup(values))
 
         }
 
@@ -29,18 +32,6 @@ const Signup = (props: Props) => {
     )
 
 
-const handleSignup = async(formData : SignupType) => {
-try {
-const data = await requester({
-    url : userPath.SIGNUP,
-    method:"POST",
-    data : formData,
-})
-}catch(err){
-    console.log(err)
-
-}
-}
 
 
 
@@ -72,12 +63,12 @@ const data = await requester({
                                 </div>
                             </div>
                             <div className="w-1/2 px-3 mb-5">
-                                <label className="text-xs font-semibold px-1">Last name</label>
+                                <label className="text-xs font-semibold px-1">PhoneNumber</label>
                                 <div className="flex">
                                     <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-account-outline text-gray-400 text-lg" /></div>
                                     <input
                                         onChange={formik.handleChange}
-                                        name='lastName'
+                                        name='phoneNumber'
                                         type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Smith" />
                                 </div>
                             </div>

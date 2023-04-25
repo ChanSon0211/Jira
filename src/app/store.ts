@@ -1,20 +1,17 @@
-import { configureStore, ThunkAction, Action, getDefaultMiddleware } from '@reduxjs/toolkit';
-
-import createSagaMiddleware from 'redux-saga'
-import rootState from './rootSaga';
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import userSlice from 'reducers/userSlice';
 
 
-const sagaMiddleware = createSagaMiddleware()
+
 
 
 export const store = configureStore({
   reducer: {
-
+user : userSlice
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware)
+
 });
 
-sagaMiddleware.run(rootState)
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
