@@ -43,8 +43,6 @@ export const userLogin = createAsyncThunk(
         timer: 1500
       });
 
-      redirect('/project')
-
       return profileLogin.data?.content
 
     } catch (err) {

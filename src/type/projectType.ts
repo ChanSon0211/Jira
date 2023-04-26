@@ -2,9 +2,9 @@
 
 
 export type MemberType = {
-    userId: number;
-    name: string;
-    avatar: string;
+    userId?: number;
+    name?: string;
+    avatar?: string;
 }
 
 
@@ -16,9 +16,9 @@ export interface ProjectType {
     };
     id: number;
     projectName: string;
-    description: string;
-    categoryId: number;
-    categoryName: string;
-    alias: string;
-    deleted: boolean;
+    description?: string;
+    categoryId?: number;
+    categoryName?: string;
+    alias?: string;
+    deleted?: boolean;
 }

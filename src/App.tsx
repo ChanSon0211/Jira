@@ -27,7 +27,7 @@ function App() {
         <Route path='*' element={<Navigate to={'/signin'}/>}></Route>
 
         <Route path='project' element={<AppRoute Component={<MainTemplate/>} isAuth />}>
-          <Route index path='detail' element={<AppRoute Component={<Project/>} isAuth  isAdmin  />}></Route>
+          <Route index path='' element={<AppRoute Component={<Project/>} isAuth  isAdmin  />}></Route>
           <Route path='task' element={<Task/> }></Route>
         </Route>
       </Routes>

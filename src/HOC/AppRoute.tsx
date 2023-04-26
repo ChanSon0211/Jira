@@ -14,22 +14,15 @@ const AppRoute = ({path, Component, isAdmin, isAuth}: AppRouteProps) => {
 
     const profile = useAppSelector(state => state.user.userProfile);
 
-    const profile1 = {id: 1, name: 'asdf', email: 'dskjfls@gmail.com', userType: 'admin'}
-
-
-    if (profile1) {
+    if (profile) {
         if (isAdmin) {
-            if (profile1.userType === 'admin') {
-
-                return {...Component}
-            }else {
-                return <Navigate to='/' />
-            }
+            return {...Component}
+            
         }
     }
 
 
-    if(profile1) {
+    if(profile) {
         if(isAuth) {
             return {...Component}
         }

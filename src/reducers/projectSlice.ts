@@ -6,11 +6,13 @@ import { ProjectType } from 'type/projectType';
 
 
 export interface ProjectSliceType {
-    projectList: ProjectType[] 
+    projectList: ProjectType[],
+    isLoading: boolean,
 }
 
 const initialState: ProjectSliceType = {
     projectList: [],
+    isLoading: false,
 };
 
 
@@ -20,9 +22,7 @@ export const fetchAllProjectList = createAsyncThunk(
     async (key: string , thunkAPI) => {
 
         const data = await projectRequester.fetchProjectList(key);
-
-
-        console.log(data)
+        return data.data.content
 
     }
 )
@@ -35,7 +35,18 @@ export const projectSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(fetchAllProjectList.pending, (state, action) => {
+        state.isLoading = true
+    });
 
+    builder.addCase(fetchAllProjectList.fulfilled, (state, {type, payload} ) => {
+        state.projectList = payload;
+        state.isLoading = false;
+    });
+
+    builder.addCase(fetchAllProjectList.rejected, (state, {type, payload}) => {
+        state.isLoading = false;
+    })
     
 
   }
